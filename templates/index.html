@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Music Recommender System</title>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            <span class="musical-note">🎵</span>
+            Music Recommender System
+            <span class="musical-note">🎶</span>
+        </h1>
+        <form action="/recommend" method="post">
+            <label for="song">Type or select a song from the dropdown:</label>
+            <select name="song" id="song">
+                <option value="">Select a song...</option> 
+                {% for title in song_titles %}
+                    <option value="{{ title }}" {% if selected_song == title %}selected{% endif %}>{{ title }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Show Recommendation</button>
+        </form>
+
+        {% if recommendations %}
+            <h2>Recommended Songs:</h2>
+            <div class="recommendation-list">
+                {% for song in recommendations %}
+                    <div class="recommendation-item">
+                        <img src="{{ song.image_url }}" alt="Album Cover">
+                        <span>{{ song.artist }} - {{ song.song }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
